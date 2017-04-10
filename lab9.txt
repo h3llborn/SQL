@@ -1,0 +1,25 @@
+--Question 1.
+SELECT employeeId, COUNT (*) FROM orders
+GROUP BY employeeId
+ORDER BY 2 DESC;
+
+-- Question 2.
+SELECT lastName, COUNT (*) FROM orders o
+INNER JOIN employees e
+ON o.employeeId = e.employeeId
+GROUP BY lastName
+ORDER BY 2 DESC;
+
+-- Question 3.
+SELECT orderId, SUM(quantity) AS "Total Qtys" FROM orderDetails
+GROUP BY orderID
+HAVING SUM(quantity) > 250
+ORDER BY 2 DESC;
+
+-- Question 4.
+SELECT companyname, SUM(unitsinstock) AS "Total Units in Stock" FROM products p
+INNER JOIN suppliers s
+ON s.supplierID = p.supplierID
+GROUP BY companyname
+HAVING SUM(unitsinstock) > 200
+ORDER BY 2 DESC;

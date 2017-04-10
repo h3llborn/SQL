@@ -1,0 +1,124 @@
+-- script for lab7
+CREATE SEQUENCE employees_employeeid_seq
+INCREMENT BY 5
+START WITH 709
+NOCACHE
+NOCYCLE;
+
+SAVEPOINT ONE;
+-- insert first record
+INSERT INTO Employees
+(employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber)
+VALUES
+(employees_employeeid_seq.nextval, 'Sheldon','Cooper', '2311 Robles Ave', 'Pasadena',
+'CA', '91101', 323, '555-1111');
+-- insert second record, increment sequence 
+INSERT INTO Employees
+(employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber)
+VALUES
+(employees_employeeid_seq.nextval, 'Leonard','Hofstadter', '2311 Robles Ave', 'Pasadena',
+'CA', '91101', 323, '555-1111');
+
+-- update employees
+UPDATE Employees SET EmpZipCode = '91101';
+-- see changes
+SELECT employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber, 'Christopher Niesel'
+FROM Employees;
+
+-- delete new employees
+DELETE FROM Employees WHERE EMPLOYEEID > 708;
+-- see changes
+SELECT employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber, 'Christopher Niesel'
+FROM Employees;
+-- go back to original state
+ROLLBACK TO ONE;
+-- drop sequence 
+DROP SEQUENCE employees_employeeid_seq;
+-- see if everything its back to original
+SELECT employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber, 'Christopher Niesel'
+FROM Employees;
+
+RESULTS:
+
+
+Sequence EMPLOYEES_EMPLOYEEID_SEQ created.
+
+
+Savepoint created.
+
+
+1 row inserted.
+
+
+1 row inserted.
+
+
+10 rows updated.
+
+
+EMPLOYEEID EMPFIRSTNAME              EMPLASTNAME               EMPSTREETADDRESS                                   EMPCITY                        EM EMPZIPCODE EMPAREACODE EMPPHONE 'CHRISTOPHERNIESEL
+---------- ------------------------- ------------------------- -------------------------------------------------- ------------------------------ -- ---------- ----------- -------- ------------------
+       701 Ann                       Patterson                 16 Maple Lane                                      Auburn                         WA 91101              253 555-2591 Christopher Niesel
+       702 Mary                      Thompson                  122 Spring River Drive                             Duvall                         WA 91101              425 555-2516 Christopher Niesel
+       703 Matt                      Berg                      908 W. Capital Way                                 Tacoma                         WA 91101              253 555-2581 Christopher Niesel
+       704 Carol                     Viescas                   722 Moss Bay Blvd.                                 Kirkland                       WA 91101              425 555-2576 Christopher Niesel
+       705 Kirk                      DeGrasse                  455 West Palm Ave                                  San Antonio                    TX 91101              210 5552311  Christopher Niesel
+       706 David                     Viescas                   16679 NE 42nd Court                                Redmond                        WA 91101              425 555-2661 Christopher Niesel
+       707 Kathryn                   Patterson                 554 E. Wilshire                                    Seattle                        WA 91101              206 555-2697 Christopher Niesel
+                                                               Apt. 2A                                                                                                                                
+
+       708 Susan                     McLain                    511 Lenora Ave                                     Bellevue                       WA 91101              425 555-2301 Christopher Niesel
+       709 Sheldon                   Cooper                    2311 Robles Ave                                    Pasadena                       CA 91101              323 555-1111 Christopher Niesel
+
+EMPLOYEEID EMPFIRSTNAME              EMPLASTNAME               EMPSTREETADDRESS                                   EMPCITY                        EM EMPZIPCODE EMPAREACODE EMPPHONE 'CHRISTOPHERNIESEL
+---------- ------------------------- ------------------------- -------------------------------------------------- ------------------------------ -- ---------- ----------- -------- ------------------
+       714 Leonard                   Hofstadter                2311 Robles Ave                                    Pasadena                       CA 91101              323 555-1111 Christopher Niesel
+
+10 rows selected. 
+
+
+2 rows deleted.
+
+
+EMPLOYEEID EMPFIRSTNAME              EMPLASTNAME               EMPSTREETADDRESS                                   EMPCITY                        EM EMPZIPCODE EMPAREACODE EMPPHONE 'CHRISTOPHERNIESEL
+---------- ------------------------- ------------------------- -------------------------------------------------- ------------------------------ -- ---------- ----------- -------- ------------------
+       701 Ann                       Patterson                 16 Maple Lane                                      Auburn                         WA 91101              253 555-2591 Christopher Niesel
+       702 Mary                      Thompson                  122 Spring River Drive                             Duvall                         WA 91101              425 555-2516 Christopher Niesel
+       703 Matt                      Berg                      908 W. Capital Way                                 Tacoma                         WA 91101              253 555-2581 Christopher Niesel
+       704 Carol                     Viescas                   722 Moss Bay Blvd.                                 Kirkland                       WA 91101              425 555-2576 Christopher Niesel
+       705 Kirk                      DeGrasse                  455 West Palm Ave                                  San Antonio                    TX 91101              210 5552311  Christopher Niesel
+       706 David                     Viescas                   16679 NE 42nd Court                                Redmond                        WA 91101              425 555-2661 Christopher Niesel
+       707 Kathryn                   Patterson                 554 E. Wilshire                                    Seattle                        WA 91101              206 555-2697 Christopher Niesel
+                                                               Apt. 2A                                                                                                                                
+
+       708 Susan                     McLain                    511 Lenora Ave                                     Bellevue                       WA 91101              425 555-2301 Christopher Niesel
+
+8 rows selected. 
+
+
+Rollback complete.
+
+
+Sequence EMPLOYEES_EMPLOYEEID_SEQ dropped.
+
+
+EMPLOYEEID EMPFIRSTNAME              EMPLASTNAME               EMPSTREETADDRESS                                   EMPCITY                        EM EMPZIPCODE EMPAREACODE EMPPHONE 'CHRISTOPHERNIESEL
+---------- ------------------------- ------------------------- -------------------------------------------------- ------------------------------ -- ---------- ----------- -------- ------------------
+       701 Ann                       Patterson                 16 Maple Lane                                      Auburn                         WA 98002              253 555-2591 Christopher Niesel
+       702 Mary                      Thompson                  122 Spring River Drive                             Duvall                         WA 98019              425 555-2516 Christopher Niesel
+       703 Matt                      Berg                      908 W. Capital Way                                 Tacoma                         WA 98413              253 555-2581 Christopher Niesel
+       704 Carol                     Viescas                   722 Moss Bay Blvd.                                 Kirkland                       WA 98033              425 555-2576 Christopher Niesel
+       705 Kirk                      DeGrasse                  455 West Palm Ave                                  San Antonio                    TX 78284              210 5552311  Christopher Niesel
+       706 David                     Viescas                   16679 NE 42nd Court                                Redmond                        WA 98052              425 555-2661 Christopher Niesel
+       707 Kathryn                   Patterson                 554 E. Wilshire                                    Seattle                        WA 98105              206 555-2697 Christopher Niesel
+                                                               Apt. 2A                                                                                                                                
+
+       708 Susan                     McLain                    511 Lenora Ave                                     Bellevue                       WA 98006              425 555-2301 Christopher Niesel
+
+8 rows selected. 
+

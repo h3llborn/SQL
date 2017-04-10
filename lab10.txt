@@ -1,0 +1,19 @@
+-- View VQ!
+CREATE VIEW VQ1
+AS
+SELECT LPAD(productID,5) AS "Product ID" , RPAD(productname,30) AS "Product Name",
+LPAD(TO_CHAR(unitprice,'$9,999.99'),15) AS "Unit Price"
+FROM Products
+WHERE unitprice > (SELECT AVG(UnitPrice)FROM Products)
+WITH READ Only;
+
+SELECT * FROM VQ1;
+-- View VQ2
+CREATE View VQ2
+AS 
+SELECT o.OrderID AS "Order", LPAD(TO_CHAR(o.OrderDate,'DD-MON-YY'),12) AS "Order Date", LPAD(TO_CHAR(o.ShippedDate,'DD-MON-YY'),12) AS "Ship Date", (SELECT c.companyName FROM Customers c WHERE c.CustomerID = o.CustomerID) AS Company
+FROM Orders o 
+WHERE o.orderDate = '10-FEB-07' OR o.orderdate = '13-FEB-07'
+WITH Read Only;
+
+SELECT * FrOM Vq2;

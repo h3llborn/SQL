@@ -1,0 +1,30 @@
+--Chris Niesel
+--Q1
+SELECT cust.CompanyName AS "Customer", REPLACE(PostalCode,' ','-') AS "Postal Code",  ord.OrderID as "Order #" 
+FROM Customers cust
+LEFT OUTER JOIN Orders ord
+ON cust.CustomerID = ord.CustomerID 
+WHERE cust.Country = 'Canada' OR cust.Country = 'France'
+ORDER BY OrderID DESC;
+
+--Q2
+SELECT RPAD(SUBSTR(sup.CompanyName,1,20),20,'.') AS "Company", RPAD(SUBSTR(prod.ProductName,1,15),15,'.') AS "Product",
+      LPAD(prod.unitPrice,7,'*') AS "Padded Price"
+FROM Suppliers sup
+LEFT OUTER JOIN Products prod
+ON sup.SupplierID = prod.SupplierID 
+WHERE LENGTH(prod.UnitPrice) > 3
+ORDER BY unitPrice DESC;
+
+--Q3
+SELECT cust.CompanyName, SUBSTR(cust.Phone,INSTR(cust.Phone,'('),INSTR(cust.Phone,')')) AS "Area Code"
+FROM Customers cust
+WHERE SUBSTR(cust.Phone,INSTR(cust.Phone,'('),INSTR(cust.Phone,')')) IS NOT NULL
+ORDER BY cust.CompanyName;
+
+--Q4 
+-- couldn't figure out the manager sales
+SELECT cust.ContactName, cust.ContactTitle
+FROM Customers cust
+WHERE SUBSTR(ContactTitle, INSTR(ContactTitle, ' ',1,1) + 1, 
+INSTR(ContactTitle, ' ', 1, 2) - INSTR(ContactTitle, ' ',1,1) -1) = 'Sales';

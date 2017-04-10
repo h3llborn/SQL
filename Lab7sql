@@ -1,0 +1,44 @@
+-- script for lab7
+CREATE SEQUENCE employees_employeeid_seq
+INCREMENT BY 5
+START WITH 709
+NOCACHE
+NOCYCLE;
+
+SAVEPOINT ONE;
+-- insert first record
+INSERT INTO Employees
+(employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber)
+VALUES
+(employees_employeeid_seq.nextval, 'Sheldon','Cooper', '2311 Robles Ave', 'Pasadena',
+'CA', '91101', 323, '555-1111');
+-- insert second record, increment sequence 
+INSERT INTO Employees
+(employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber)
+VALUES
+(employees_employeeid_seq.nextval, 'Leonard','Hofstadter', '2311 Robles Ave', 'Pasadena',
+'CA', '91101', 323, '555-1111');
+
+-- update employees
+UPDATE Employees SET EmpZipCode = '91101';
+-- see changes
+SELECT employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber, 'Christopher Niesel'
+FROM Employees;
+
+-- delete new employees
+DELETE FROM Employees WHERE EMPLOYEEID > 708;
+-- see changes
+SELECT employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber, 'Christopher Niesel'
+FROM Employees;
+-- go back to original state
+ROLLBACK TO ONE;
+-- drop sequence 
+DROP SEQUENCE employees_employeeid_seq;
+-- see if everything its back to original
+SELECT employeeID, empFirstName, empLastName, EMPSTREETADDRESS, EmpCity, EmpState,
+EMPZIPCODE, empAreaCode, empPhoneNumber, 'Christopher Niesel'
+FROM Employees;
